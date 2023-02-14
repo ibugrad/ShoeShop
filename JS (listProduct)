@@ -1,0 +1,49 @@
+import { LightningElement,track,wire } from 'lwc';
+import getProductLists from '@salesforce/apex/shoppingCart.products';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import { subscribe,publish, MessageContext } from 'lightning/messageService';
+import PRODUCT_FILTERED from '@salesforce/messageChannel/Filtered_Product__c';
+import PRODUCT_CART from '@salesforce/messageChannel/Recordfor_Cart__c';
+export default class listProducts extends LightningElement {
+  
+  subscription = null;
+
+    @track color1=null;
+    @track category1=null;
+
+    
+    @wire(MessageContext)
+  messageContext;
+  subscribeToMessageChannel() {
+    this.subscription = subscribe(
+      this.messageContext,
+      PRODUCT_FILTERED,
+      (message) => this.handleMessage(message)
+    );
+  }
+  handleMessage(message) {
+    this.color1=message.clr;
+    this.category1=message.ctgry;
+  }
+  connectedCallback() {
+    this.subscribeToMessageChannel();
+  }
+    @wire(getProductLists,{clr:'$color1',ctg:'$category1'})productDetails;
+
+    @wire(MessageContext)
+    messageContext;
+    handleCart(event) {
+      const productId = event.target.dataset.productId;
+      const payload = {
+        proid:productId
+      }
+      publish(this.messageContext,PRODUCT_CART,payload);
+      const toastEvent = new ShowToastEvent({
+        title: 'Success!',
+        message: 'Item added to cart.',
+        variant: 'success'
+      });
+      this.dispatchEvent(toastEvent);
+    }
+    
+}
