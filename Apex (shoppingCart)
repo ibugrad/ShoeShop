@@ -1,0 +1,86 @@
+public with sharing class shoppingCart {
+    
+    @AuraEnabled(cacheable=true)
+    public static List<Product__c> products(String clr,String ctg){
+        string ProList= 'SELECT Id, Price__c, Name, Category__c, Color__c, Size__c, Imagelink__c from Product__c';
+        List<Product__c> pList2=[Select Id, Price__c, Name, Category__c, Color__c, Size__c, Imagelink__c from Product__c];
+        if(clr==null && ctg==null){
+            ProList=ProList;
+        }
+        if(clr!=null && ctg==null){
+            ProList= ProList+' WHERE Color__c =: clr';
+        }
+        if(clr==null && ctg!=null){
+            ProList= ProList+' WHERE Category__c =: ctg';
+        }
+        if(clr!=null && ctg!=null){
+            ProList= ProList+' WHERE Category__c =: ctg AND Color__c =: clr';
+        }
+        return database.query(ProList);
+    }
+
+
+    @AuraEnabled(cacheable=true)
+    public static List<Product__c> cartProduct(List<String> myproidlist){
+    
+        List<Product__c> proList=[Select Name,Id,Price__c FROM Product__c Where Id IN:myproidlist];
+        List<Product__c> proListMultiple = new List<Product__c>();
+
+        for(String id : myproidlist) {
+          for(Product__c p : proList) {
+            if(p.Id == id) {
+               proListMultiple.add(p);
+              }
+           }
+        }
+        return proListMultiple;
+    }
+
+        @AuraEnabled()
+    public static string MakeOrder(List<String> myproidlist){
+        List<Product__c> proList=[Select Name,Id,Price__c FROM Product__c Where Id IN:myproidlist];
+        List<Product__c> proListMultiple = new List<Product__c>();
+
+        for(String id : myproidlist) {
+          for(Product__c p : proList) {
+            if(p.Id == id) {
+               proListMultiple.add(p);
+              }
+           }
+        }
+
+        date dt=system.today();
+        Order__c ord= new Order__c();
+        ord.Order_Date__c=dt;
+        Insert ord;
+
+        Map<Id, Order_Line_Item__c> orderLineItems = new Map<Id, Order_Line_Item__c>();
+
+        // First, loop through existing Order_Line_Item__c records and add them to the map
+        for (Order_Line_Item__c existingItem : [SELECT Id, Product__c, Quantity__c FROM Order_Line_Item__c WHERE Order__c = :ord.Id]) {
+            orderLineItems.put(existingItem.Product__c, existingItem);
+        }
+        
+        // Next, loop through the proListMultiple list and create or update Order_Line_Item__c records
+        for (Product__c p : proListMultiple) {
+            if (orderLineItems.containsKey(p.Id)) {
+                // If an Order_Line_Item__c record already exists for this product, update its Quantity__c field
+                Order_Line_Item__c existingItem = orderLineItems.get(p.Id);
+                existingItem.Quantity__c += 1; // Increase the quantity by 1
+                Update existingItem;
+            } else {
+                // If no Order_Line_Item__c record exists for this product, create a new one
+                Order_Line_Item__c orl = new Order_Line_Item__c();
+                orl.Order__c = ord.Id; // Set the Order__c field to the ID of the newly created Order record
+                orl.Product__c = p.Id; // Set the Product__c field to the ID of the Product__c record
+                orl.Price__c = p.Price__c; // Set the Price__c field to the Price__c value from the Product__c record
+                orl.Quantity__c = 1; // Set the Quantity__c field to 1
+                orl.Name=p.Name+' order';
+                // Add any other fields you want to set for the Order_Line_Item__c record
+                Insert orl;
+                orderLineItems.put(p.Id, orl); // Add the new record to the map
+            }
+        }
+    return 'Order is created successfully!';
+}
+}
