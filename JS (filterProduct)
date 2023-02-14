@@ -1,0 +1,71 @@
+import { LightningElement,track,wire } from 'lwc';
+import { publish, MessageContext } from 'lightning/messageService';
+import PRODUCT_FILTERED from '@salesforce/messageChannel/Filtered_Product__c';
+export default class filterProducts extends LightningElement {
+    @track color=null;
+    @track category=null;
+
+    get options() {
+        return [
+            { label: 'All', value: 'All' },
+            { label: 'Running Shoe', value: 'Running Shoe' },
+            { label: 'Platform Shoe', value: 'Platform Shoe' },
+            { label: 'Flip Flop', value: 'Flip Flop' },
+            { label: 'Boat Shoe', value: 'Boat Shoe' },
+        ];
+    }
+    get options1() {
+        return [
+            { label: 'All', value: 'All' },
+            { label: 'Black', value: 'Black' },
+            { label: 'White', value: 'White' },
+            { label: 'Yellow', value: 'Yellow' },
+            { label: 'Red', value: 'Red' },
+        ];
+    }
+
+    handleChangeColor(event) {
+        if(event.target.value=='All'){
+            this.color=null;
+        }
+        if(event.target.value=='White'){
+            this.color='White';
+        }
+        if(event.target.value=='Black'){
+            this.color='Black';
+        }
+        if(event.target.value=='Yellow'){
+            this.color='Yellow';
+        }
+        if(event.target.value=='Red'){
+            this.color='Red';
+        }
+    }
+    handleChangeCategory(e) {        
+        if(e.target.value=='All'){
+            this.category=null;
+        }
+        if(e.target.value=='Boat Shoe'){
+            this.category='Boat Shoe';
+        }
+        if(e.target.value=='Running Shoe'){
+            this.category='Running Shoe';
+        }
+        if(e.target.value=='Flip Flop'){
+            this.category='Flip Flop';
+        } 
+        if(e.target.value=='Platform Shoe'){
+            this.category='Platform Shoe';
+        }
+    }
+
+    @wire(MessageContext)
+    messageContext;
+    handleClick(event){
+        const payload = {
+            clr:this.color,
+            ctgry:this.category
+        };
+        publish(this.messageContext,PRODUCT_FILTERED,payload);
+    }
+}
