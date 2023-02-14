@@ -1,0 +1,15 @@
+<template>
+  <lightning-card  variant="Narrow"  title="SHOPPING CART" icon-name="action:approval">
+    <hr>
+      <lightning-datatable
+      key-field="id"
+      data={productDetail}
+      show-row-number-column
+      columns={columns}>
+  </lightning-datatable>
+  <p slot="footer">Total Price: $ {totalPrice}</p>
+<hr>
+  <lightning-button label="Show Products" onclick={handleShow}></lightning-button>
+  <lightning-button variant="success" label="Order" title="Successful action" onclick={handleOrder} class="slds-m-left_x-small"></lightning-button>
+</lightning-card>
+</template>
