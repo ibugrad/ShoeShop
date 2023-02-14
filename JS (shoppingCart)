@@ -1,0 +1,62 @@
+import { LightningElement,wire,track } from 'lwc';
+import { subscribe, MessageContext } from 'lightning/messageService';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import PRODUCT_CART from '@salesforce/messageChannel/Recordfor_Cart__c';
+import shoppingList from '@salesforce/apex/shoppingCart.cartProduct';
+import Order from '@salesforce/apex/shoppingCart.MakeOrder';
+export default class MyShoppingCart extends LightningElement {
+
+  @track columns = [
+    { label: 'Name', fieldName: 'Name', type: 'text', },
+    { label: 'Price', fieldName: 'Price__c', type: 'currency' }
+];
+    subscription = null;
+    @track productcartid;
+    @track productlist=[];
+    @track productDetail;
+    @track totalPrice;
+    @track error;
+    @wire(MessageContext)
+    messageContext;
+    subscribeToMessageChannel() {
+      this.subscription = subscribe(
+        this.messageContext,
+        PRODUCT_CART,
+        (message) => this.handleMessage(message)
+      );
+    }
+    handleMessage(message) {
+      this.productcartid=message.proid;
+      this.productlist.push(this.productcartid);
+    }
+    connectedCallback() {
+      this.subscribeToMessageChannel();
+    }
+    handleShow(event){
+      let eprice=0;
+      let ttl=0;
+    shoppingList({myproidlist : this.productlist}).then(result =>{this.productDetail=result}).catch(error =>{this.error});
+    this.productDetail.forEach(pr => {
+     eprice= pr.Price__c;
+     ttl=ttl+eprice;  
+    });
+    this.totalPrice=ttl;
+    console.log(ttl);
+    }    
+    @track order;
+    handleOrder(){
+      Order({myproidlist:this.productlist})
+      .then( result =>{
+          this.order = result;
+          const toastEvent = new ShowToastEvent({
+              title: 'Success',
+              message: 'Order is Created',
+              variant: 'success'
+          });
+          this.dispatchEvent(toastEvent);
+      }) 
+      .catch(error => {
+          this.error = error;
+      });
+  }  
+}
