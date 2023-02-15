@@ -12,7 +12,7 @@
                         <br>
                         <p>${pr.Price__c}</p>
                         <br>
-                        <lightning-button variant="brand-outline" label="ADD TO CART" title="Successful action" onclick={handleCart} class="slds-m-left_x-small" data-product-id={pr.Id}></lightning-button>                       </div>
+                        <lightning-button variant="brand" label="ADD TO CART" title="Successful action" onclick={handleCart} class="slds-m-left_x-small" data-product-id={pr.Id}></lightning-button>                       </div>
                     </div> 
                 </template> 
             </div>
