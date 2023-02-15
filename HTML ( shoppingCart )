@@ -1,17 +1,20 @@
 <template>
-  <lightning-card  variant="Narrow"  title="SHOPPING CART" icon-name="action:approval">
-  <hr>
-  <lightning-datatable
-      key-field="id"
-      data={productDetail}
-      show-row-number-column
-      columns={columns}>
-  </lightning-datatable>  
-  <p slot="footer">Total Price: $ {totalPrice}</p>
-  <hr>
-  <div class="slds-align_absolute-center">
-  <lightning-button variant="brand" label="Order" title="Successful action" onclick={handleOrder} class="slds-m-left_x-small"></lightning-button>
-  <lightning-button variant="destructive" label="Clear Cart" title="Destructive action" onclick={handleShow} class="slds-m-left_x-small"></lightning-button>
-  </div>
-</lightning-card>
+    <lightning-card variant="Narrow" title="SHOPPING CART" icon-name="action:approval">
+      <lightning-card variant="Narrow">
+        <div class="slds-scrollable_y" style="max-height: 300px;">
+          <lightning-datatable
+            key-field="id"
+            data={productDetail}
+            show-row-number-column
+            columns={columns}>
+          </lightning-datatable>
+        </div>
+        <p slot="footer">Total Price: $ {totalPrice}</p>
+        <hr>
+      </lightning-card>
+      <div class="slds-align_absolute-center">
+        <lightning-button variant="brand" label="Order" title="Successful action" onclick={handleOrder} class="slds-m-left_x-small"></lightning-button>
+        <lightning-button variant="destructive" label="Clear Cart" title="Destructive action" onclick={handleShow} class="slds-m-left_x-small"></lightning-button>
+      </div>
+    </lightning-card>
 </template>
