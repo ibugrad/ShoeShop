@@ -39,8 +39,8 @@ export default class listProducts extends LightningElement {
       publish(this.messageContext,PRODUCT_CART,payload);
       const toastEvent = new ShowToastEvent({
         title: 'Success!',
-        message: 'Item added to cart.',
-        variant: 'success'
+        message: 'Item Added to Cart!',
+        variant: 'info'
       });
       this.dispatchEvent(toastEvent);
     }
