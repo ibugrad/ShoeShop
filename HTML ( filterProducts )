@@ -17,16 +17,6 @@
             options={options1}
             onchange={handleChangeColor} ></lightning-combobox>
             <hr>
-      <!--  <lightning-checkbox-group name="Checkbox Group"
-        label="Category"
-        options={options}
-        value={value}
-        onchange={handleChange} ></lightning-checkbox-group>
-        <lightning-checkbox-group name="Checkbox Group2"
-        label="Color"
-        options={coloroptions}
-        value={value}
-        onchange={handlecolorChange}></lightning-checkbox-group>-->
         <lightning-button variant="brand-outline" label="Filter" title="Primary action with lighter look" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
     </lightning-card>
 </template>
