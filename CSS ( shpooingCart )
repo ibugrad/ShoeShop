@@ -1,0 +1,3 @@
+.slds-scrollable_y {
+    overflow-y: auto;
+  }
