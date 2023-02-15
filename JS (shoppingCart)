@@ -14,8 +14,9 @@ export default class MyShoppingCart extends LightningElement {
     @track productcartid;
     @track productlist=[];
     @track productDetail;
-    @track totalPrice;
+    @track totalPrice=0;
     @track error;
+    //@track data;
     @wire(MessageContext)
     messageContext;
     subscribeToMessageChannel() {
@@ -28,21 +29,30 @@ export default class MyShoppingCart extends LightningElement {
     handleMessage(message) {
       this.productcartid=message.proid;
       this.productlist.push(this.productcartid);
+      let eprice=0;
+      let ttl=0;
+      shoppingList({myproidlist : this.productlist}).then(result => {
+        this.productDetail=result;
+        this.productDetail.forEach(pr => {
+          eprice= pr.Price__c;
+          ttl=ttl+eprice;  
+        });
+        this.totalPrice=ttl;
+        console.log(ttl);
+      }).catch(error => {
+        this.error = error;
+      });
     }
+    
     connectedCallback() {
       this.subscribeToMessageChannel();
     }
     handleShow(event){
-      let eprice=0;
-      let ttl=0;
-    shoppingList({myproidlist : this.productlist}).then(result =>{this.productDetail=result}).catch(error =>{this.error});
-    this.productDetail.forEach(pr => {
-     eprice= pr.Price__c;
-     ttl=ttl+eprice;  
-    });
-    this.totalPrice=ttl;
-    console.log(ttl);
-    }    
+      this.productlist=[];
+      this.template.querySelector('lightning-datatable').data=null;
+      this.totalPrice=0;
+    }
+    
     @track order;
     handleOrder(){
       Order({myproidlist:this.productlist})
@@ -54,6 +64,9 @@ export default class MyShoppingCart extends LightningElement {
               variant: 'success'
           });
           this.dispatchEvent(toastEvent);
+          this.productlist = [];
+          this.template.querySelector('lightning-datatable').data = null;
+          this.totalPrice = 0;
       }) 
       .catch(error => {
           this.error = error;
