@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<LightningMessageChannel xmlns="https://soap.sforce.com/2006/04/metadata">
+    <masterLabel>RecordforCart</masterLabel>
+    <isExposed>true</isExposed>
+    <description>Message Channel to move product Id</description>
+     <lightningMessageFields>
+        <fieldName>proid</fieldName>
+        <description>This is the id of product for cart</description>
+    </lightningMessageFields>
+    </LightningMessageChannel>
