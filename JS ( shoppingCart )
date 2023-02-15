@@ -47,10 +47,17 @@ export default class MyShoppingCart extends LightningElement {
     connectedCallback() {
       this.subscribeToMessageChannel();
     }
-    handleShow(event){
-      this.productlist=[];
-      this.template.querySelector('lightning-datatable').data=null;
-      this.totalPrice=0;
+    handleShow(event) {
+      this.productlist = [];
+      this.template.querySelector('lightning-datatable').data = null;
+      this.totalPrice = 0;
+    
+      const toastEvent = new ShowToastEvent({
+        title: 'All Gone!!',
+        message: 'Your cart cleaned!',
+        variant: 'error'
+      });
+      this.dispatchEvent(toastEvent);
     }
     
     @track order;
@@ -59,8 +66,8 @@ export default class MyShoppingCart extends LightningElement {
       .then( result =>{
           this.order = result;
           const toastEvent = new ShowToastEvent({
-              title: 'Success',
-              message: 'Order is Created',
+              title: 'Success!',
+              message: 'Your order has been created',
               variant: 'success'
           });
           this.dispatchEvent(toastEvent);
