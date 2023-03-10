@@ -26,6 +26,7 @@ export default class MyShoppingCart extends LightningElement {
         (message) => this.handleMessage(message)
       );
     }
+    
     handleMessage(message) {
       this.productcartid=message.proid;
       this.productlist.push(this.productcartid);
