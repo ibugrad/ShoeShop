@@ -4,14 +4,10 @@
                 <div style="height: 400px; overflow-y: auto;">
                 <template for:each={productDetails.data} for:item="pr">
                     <div key={pr.Id} style="display: flex; justify-content: center;" >
-                        <div style="text-align: center;">
-                        <hr>
-                        <p>{pr.Name}</p>
-                        <br>
-                        <img src={pr.Imagelink__c} style="width: 300px; height: auto;" />
-                        <br>
-                        <p>${pr.Price__c}</p>
-                        <br>
+                        <div style="text-align: center;"><hr>
+                        <p>{pr.Name}</p><br>
+                        <img src={pr.Imagelink__c} style="width: 300px; height: auto;" /><br>
+                        <p>${pr.Price__c}</p><br>
                         <lightning-button variant="brand" label="ADD TO CART" title="Successful action" onclick={handleCart} class="slds-m-left_x-small" data-product-id={pr.Id}></lightning-button>                       </div>
                     </div> 
                 </template> 
