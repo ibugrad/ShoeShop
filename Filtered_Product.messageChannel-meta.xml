@@ -10,5 +10,5 @@
     <lightningMessageFields>
          <fieldName>ctgry</fieldName>
         <description>This is the category for the filter</description>
-     </lightningMessageFields>
-    </LightningMessageChannel>
+    </lightningMessageFields>
+</LightningMessageChannel>
