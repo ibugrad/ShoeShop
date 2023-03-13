@@ -5,7 +5,7 @@ export default class filterProducts extends LightningElement {
     @track color=null;
     @track category=null;
 
-    get options() {
+     get options() {
         return [
             { label: 'All', value: 'All' },
             { label: 'Running Shoe', value: 'Running Shoe' },
