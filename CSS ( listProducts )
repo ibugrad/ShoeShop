@@ -2,4 +2,4 @@ p {
     font-size: 20px;
     background-color: rgba(61, 4, 4, 0.053);
     color: rgba(0, 0, 0, 0.906);
-  }
+   }
