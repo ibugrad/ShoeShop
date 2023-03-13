@@ -6,7 +6,7 @@ import PRODUCT_FILTERED from '@salesforce/messageChannel/Filtered_Product__c';
 import PRODUCT_CART from '@salesforce/messageChannel/Recordfor_Cart__c';
 export default class listProducts extends LightningElement {
   
-  subscription = null;
+   subscription = null;
 
     @track color1=null;
     @track category1=null;
