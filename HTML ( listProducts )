@@ -2,7 +2,7 @@
     <lightning-card title="SHOPPING LIST" icon-name="action:preview">
             <template if:true={productDetails.data}>
                 <div style="height: 400px; overflow-y: auto;">
-                <template for:each={productDetails.data} for:item="pr">
+                 <template for:each={productDetails.data} for:item="pr">
                     <div key={pr.Id} style="display: flex; justify-content: center;" >
                         <div style="text-align: center;"><hr>
                         <p>{pr.Name}</p><br>
