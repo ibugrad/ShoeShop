@@ -10,7 +10,7 @@
           </lightning-datatable>
         </div>
         <p slot="footer">Total Price: $ {totalPrice}</p>
-        <hr>
+         <hr>
       </lightning-card>
       <div class="slds-align_absolute-center">
         <lightning-button variant="brand" label="Order" title="Successful action" onclick={handleOrder} class="slds-m-left_x-small"></lightning-button>
