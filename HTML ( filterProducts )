@@ -17,6 +17,6 @@
             options={options1}
             onchange={handleChangeColor} ></lightning-combobox>
             <hr>
-        <lightning-button variant="brand-outline" label="Filter" title="Primary action with lighter look" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
+       <lightning-button variant="brand-outline" label="Filter" title="Primary action with lighter look" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>
     </lightning-card>
 </template>
