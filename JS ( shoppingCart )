@@ -9,7 +9,7 @@ export default class MyShoppingCart extends LightningElement {
   @track columns = [
     { label: 'Name', fieldName: 'Name', type: 'text', },
     { label: 'Price', fieldName: 'Price__c', type: 'currency' }
-];
+ ];
     subscription = null;
     @track productcartid;
     @track productlist=[];
