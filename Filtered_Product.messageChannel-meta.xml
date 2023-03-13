@@ -8,7 +8,7 @@
         <description>This is the color option for filter</description>
     </lightningMessageFields>
     <lightningMessageFields>
-         <fieldName>ctgry</fieldName>
+        <fieldName>ctgry</fieldName>
         <description>This is the category for the filter</description>
     </lightningMessageFields>
 </LightningMessageChannel>
